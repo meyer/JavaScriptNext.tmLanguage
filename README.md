@@ -7,6 +7,10 @@ If you haven't already, [install Package Control](https://sublime.wbond.net/inst
 
 To set this as your default JavaScript syntax, open a javascript file, then select `View -> Syntax -> Open all with current extension as... -> JavascriptNext`.
 
+### For TextMate 2
+
+Just open the `JavascriptNext.tmbundle` directory with TextMate 2 and you should be good to go.
+
 You may also need to change the ColorScheme. Pick one from `Preferences -> Color Scheme -> JavaScriptNext`.
 
 ## Screenshots
