@@ -209,6 +209,8 @@ repository:
         - include: '#brackets'
         - include: '#comments'
         - include: '#literal-method'
+        - include: '#literal-property-initializer'
+        - include: '#expression'
 
   literal-method:
     patterns:
@@ -245,6 +247,14 @@ repository:
       patterns:
       - include: '#function-declaration-parameters'
 
+  literal-property-initializer:
+    patterns:
+    - name: meta.class.property.js
+      match: \b(?:(static)\s+)?([_$a-zA-Z][$\w]*)\s*=
+      captures:
+        '1': {name: storage.type.js}
+        '2': {name: variable.class.property.js}
+
   literal-prototype:
     patterns:
     # e.g. Sound.prototype
@@ -277,6 +287,25 @@ repository:
         '2': {name: storage.type.function.js}
         '3': {name: keyword.generator.asterisk.js}
         '4': {name: entity.name.function.js}
+      end: (?<=\))
+      patterns:
+      - include: '#function-declaration-parameters'
+
+    # e.g. play = function(arg1, arg2) {  }
+    - name: meta.function.js
+      begin: >-
+        (?x)
+          (\b[_$a-zA-Z][$\w]*)
+          \s*=
+          \s*(?:(async)\s+)?
+          \s*(function)(?:\s*(\*)|(?=\s|[(]))
+          \s*([_$a-zA-Z][$\w]*)?\s*
+      beginCaptures:
+        '1': {name: entity.name.function.js}
+        '2': {name: storage.type.js}
+        '3': {name: storage.type.function.js}
+        '4': {name: keyword.generator.asterisk.js}
+        '5': {name: entity.name.function.js}
       end: (?<=\))
       patterns:
       - include: '#function-declaration-parameters'
@@ -406,6 +435,37 @@ repository:
         '1': {name: storage.type.js}
         '2': {name: variable.parameter.function.js}
         '3': {name: storage.type.function.arrow.js}
+
+    # e.g. play = (args) => { }
+    - name: meta.function.arrow.js
+      begin: >-
+        (?x)
+          (\b[_$a-zA-Z][$\w]*)
+          \s*=
+          \s*(async)?
+          \s*(?=\([^()]*\)\s*(=>))
+      beginCaptures:
+        '1': {name: entity.name.function.js}
+        '2': {name: storage.type.js}
+      end: (?<=\))\s*(=>)
+      endCaptures:
+        '1': {name: storage.type.function.arrow.js}
+      patterns:
+      - include: '#function-declaration-parameters'
+
+    # e.g. play = arg => { }
+    - name: meta.function.arrow.js
+      match: >-
+        (?x)
+          (\b[_$a-zA-Z][$\w]*)
+          \s*=
+          \s*(async)?
+          \s*\b([_$a-zA-Z][$\w]*)\s*(=>)
+      captures:
+        '1': {name: entity.name.function.js}
+        '2': {name: storage.type.js}
+        '3': {name: variable.parameter.function.js}
+        '4': {name: storage.type.function.arrow.js}
 
     # e.g. Sound.prototype.play = (args) => { }
     - name: meta.prototype.function.arrow.js
@@ -1062,7 +1122,7 @@ repository:
           )\b
 
     # console
-    - match: (?<!\.)\b(console)(?:(\.)(warn|info|log|error|time|timeEnd|assert))?\b
+    - match: (?<!\.)\b(console)(?:(\.)(warn|info|log|error|time|timeEnd|assert|count|dir|group|groupCollapsed|groupEnd|profile|profileEnd|table|trace))?\b
       captures:
         '1': {name: support.type.object.console.js}
         '2': {name: keyword.operator.accessor.js}
@@ -1070,7 +1130,7 @@ repository:
 
     # node
     - name: support.module.node.js
-      match: (?<!\.)\b(natives|buffer|child_process|cluster|crypto|dgram|dns|fs|http|https|net|os|path|punycode|string|string_decoder|readline|repl|tls|tty|util|vm|zlib)\b
+      match: (?<!\.)\b(assert|buffer|child_process|cluster|constants|crypto|dgram|dns|domain|events|fs|http|https|net|os|path|punycode|querystring|readline|repl|stream|string_decoder|timers|tls|tty|url|util|vm|zlib)\b
 
     - match: (?<!\.)\b(process)(?:(\.)(stdout|stderr|stdin|argv|execPath|execArgv|env|exitCode|version|versions|config|pid|title|arch|platform|mainModule))?\b
       captures:
