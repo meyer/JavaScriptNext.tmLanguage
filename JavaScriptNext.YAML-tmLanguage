@@ -896,6 +896,26 @@ repository:
 
   literal-quasi:
     patterns:
+    - name: string.quasi.html.js
+      begin: html(`)
+      beginCaptures:
+        '1': {name: entity.quasi.tag.name.js}
+        '2': {name: punctuation.definition.quasi.begin.js}
+      end: '`'
+      endCaptures:
+        '0': {name: punctuation.definition.quasi.end.js}
+      patterns:
+      - include: 'text.html.basic'
+      - name: entity.quasi.element.js
+        begin: \${
+        beginCaptures:
+          '0': {name: punctuation.quasi.element.begin.js}
+        end: '}'
+        endCaptures:
+          '0': {name: punctuation.quasi.element.end.js}
+        patterns:
+        - include: '#expression'
+
     - name: string.quasi.js
       begin: ([a-zA-Z$_][\w$_]*)?(`)
       beginCaptures:
