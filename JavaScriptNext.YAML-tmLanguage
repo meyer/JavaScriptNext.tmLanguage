@@ -746,12 +746,21 @@ repository:
       begin: (new)\s+(?=[_$a-zA-Z][$\w.]*)
       beginCaptures:
         '1': {name: keyword.operator.new.js}
-      end: (?![_$a-zA-Z][$\w.]*)
+      end: (?![_$a-zA-Z.])
       patterns:
       - include: '#support'
-      - match: ([_$a-zA-Z][$\w.]*\.)?([_$a-zA-Z][$\w]*)
+      - include: '#literal-language-variable'
+
+      - name: keyword.operator.accessor.js
+        match: \.
+
+      - name: entity.name.type.new.js
+        match: (?<=\.)\s*[_$a-zA-Z][$\w]*(?=\s*\()
+
+      - name: meta.property.object.js
+        match: (?<=\.)\s*[_$a-zA-Z][$\w]*
         captures:
-          '2': {name: entity.name.type.new.js}
+          '2': {name: variable.other.property.js}
 
   literal-keyword-storage:
     patterns:

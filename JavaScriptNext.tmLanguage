@@ -1076,7 +1076,7 @@
 						</dict>
 					</dict>
 					<key>end</key>
-					<string>(?![_$a-zA-Z][$\w.]*)</string>
+					<string>(?![_$a-zA-Z.])</string>
 					<key>name</key>
 					<string>meta.instance.constructor</string>
 					<key>patterns</key>
@@ -1086,16 +1086,34 @@
 							<string>#support</string>
 						</dict>
 						<dict>
+							<key>include</key>
+							<string>#literal-language-variable</string>
+						</dict>
+						<dict>
+							<key>match</key>
+							<string>\.</string>
+							<key>name</key>
+							<string>keyword.operator.accessor.js</string>
+						</dict>
+						<dict>
+							<key>match</key>
+							<string>(?&lt;=\.)\s*[_$a-zA-Z][$\w]*(?=\s*\()</string>
+							<key>name</key>
+							<string>entity.name.type.new.js</string>
+						</dict>
+						<dict>
 							<key>captures</key>
 							<dict>
 								<key>2</key>
 								<dict>
 									<key>name</key>
-									<string>entity.name.type.new.js</string>
+									<string>variable.other.property.js</string>
 								</dict>
 							</dict>
 							<key>match</key>
-							<string>([_$a-zA-Z][$\w.]*\.)?([_$a-zA-Z][$\w]*)</string>
+							<string>(?&lt;=\.)\s*[_$a-zA-Z][$\w]*</string>
+							<key>name</key>
+							<string>meta.property.object.js</string>
 						</dict>
 					</array>
 				</dict>
